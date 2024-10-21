@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+
+# TypeScript Output
+dist/
+
+# OS Files
+.DS_Store
+
+# IDE Specific
+.vscode/
+.idea/
