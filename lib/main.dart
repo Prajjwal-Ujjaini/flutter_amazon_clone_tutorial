@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_amazon_clone_tutorial/features/home/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'common/widgets/bottom_bar.dart';
 import 'constants/global_variables.dart';
 import 'features/auth/screens/auth_screen.dart';
 import 'features/auth/services/auth_service.dart';
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       scaffoldMessengerKey: scaffoldMessengerKey,
       onGenerateRoute: (settings) => generateRoute(settings),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? HomeScreen()
+          ? BottomBar()
           : const AuthScreen(),
     );
   }
