@@ -42,6 +42,60 @@ class _DealOfDayState extends State<DealOfDay> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://plus.unsplash.com/premium_photo-1726611746549-0a0dad02cb17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 15).copyWith(left: 15),
+          alignment: Alignment.topLeft,
+          child: Text(
+            'See all details',
+            style: TextStyle(
+              color: Colors.cyan[800],
+            ),
+          ),
+        )
       ],
     );
   }
