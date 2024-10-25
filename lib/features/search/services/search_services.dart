@@ -10,16 +10,16 @@ import '../../../constants/utils.dart';
 import '../../../models/product_model.dart';
 import '../../../providers/user_provider.dart';
 
-class HomeServices {
-  Future<List<ProductModel>> fetchCategoryProducts({
+class SearchServices {
+  Future<List<ProductModel>> fetchSearchedProduct({
     required BuildContext context,
-    required String category,
+    required String searchQuery,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<ProductModel> productList = [];
     try {
       http.Response res = await http
-          .get(Uri.parse('$uri/api/products?category=$category'), headers: {
+          .get(Uri.parse('$uri/api/products/search/$searchQuery'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });
@@ -43,38 +43,5 @@ class HomeServices {
       showSnackBar(context, e.toString());
     }
     return productList;
-  }
-
-  Future<ProductModel> fetchDealOfDay({
-    required BuildContext context,
-  }) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    ProductModel product = ProductModel(
-      name: '',
-      description: '',
-      quantity: 0,
-      images: [],
-      category: '',
-      price: 0,
-    );
-
-    try {
-      http.Response res =
-          await http.get(Uri.parse('$uri/api/deal-of-day'), headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'x-auth-token': userProvider.user.token,
-      });
-
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () {
-          product = ProductModel.fromJson(res.body);
-        },
-      );
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-    return product;
   }
 }
