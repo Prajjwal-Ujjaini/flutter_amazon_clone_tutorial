@@ -10,6 +10,7 @@ import { connectDB } from "./config/db";
 import { authRouter } from "./routes/auth";
 import { adminRouter } from "./routes/admin";
 import { productRouter } from "./routes/product";
+import { userRouter } from "./routes/user";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 
 const server = http.createServer(app);
 

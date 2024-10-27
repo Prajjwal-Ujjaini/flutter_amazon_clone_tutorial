@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_tutorial/features/admin/screens/posts_screen.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../account/services/account_services.dart';
+import 'analtyics_screen.dart';
+import 'orders_screen.dart';
 
 class AdminScreen extends StatefulWidget {
+  static const String routeName = '/admin_screen';
   const AdminScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,10 +20,11 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    PostsScreen(),
-    const Center(child: Text('Analytics Page')),
-    const Center(child: Text('Cart Page')),
-    // const CartScreen(),
+    const PostsScreen(),
+    const AnalyticsScreen(),
+    // const Center(child: Text('Analytics Page')),
+    // const Center(child: Text('Cart Page')),
+    const OrdersScreen(),
   ];
 
   void updatePage(int page) {
@@ -49,12 +54,19 @@ class _AdminScreenState extends State<AdminScreen> {
                 color: Colors.black,
               ),
             ),
-            const Text(
-              'Admin',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                const Text(
+                  'Admin',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () => AccountServices().logOut(context),
+                    icon: const Icon(Icons.logout))
+              ],
             )
           ]),
         ),

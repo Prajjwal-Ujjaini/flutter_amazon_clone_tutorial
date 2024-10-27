@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_amazon_clone_tutorial/features/account/widgets/single_product.dart';
-import 'package:flutter_amazon_clone_tutorial/features/admin/screens/add_products_screen.dart';
-import 'package:flutter_amazon_clone_tutorial/features/admin/services/admin_services.dart';
-import 'package:flutter_amazon_clone_tutorial/models/product_model.dart';
 
 import '../../../common/widgets/loader.dart';
+import '../../../models/product_model.dart';
+import '../../account/widgets/single_product.dart';
+import '../services/admin_services.dart';
+import 'add_products_screen.dart';
 
 class PostsScreen extends StatefulWidget {
   const PostsScreen({Key? key}) : super(key: key);
@@ -17,23 +17,19 @@ class _PostsScreenState extends State<PostsScreen> {
   List<ProductModel>? products;
   final AdminServices adminServices = AdminServices();
 
-  fetchAllProducts() async {
-    products = await adminServices.fetchAllProduct(context: context);
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
     fetchAllProducts();
   }
 
-  void navigateToAddProduct() {
-    Navigator.pushNamed(context, AddProductScreen.routeName);
+  fetchAllProducts() async {
+    products = await adminServices.fetchAllProducts(context);
+    setState(() {});
   }
 
-  void deletProduct(ProductModel product, int index) {
-    adminServices.deletProcuct(
+  void deleteProduct(ProductModel product, int index) {
+    adminServices.deleteProduct(
       context: context,
       product: product,
       onSuccess: () {
@@ -43,45 +39,54 @@ class _PostsScreenState extends State<PostsScreen> {
     );
   }
 
+  void navigateToAddProduct() {
+    Navigator.pushNamed(context, AddProductScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return products == null
         ? const Loader()
         : Scaffold(
             body: GridView.builder(
-                itemCount: products!.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  final productData = products![index];
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 140,
-                        child: SingleProduct(image: productData.images[0]),
+              itemCount: products!.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemBuilder: (context, index) {
+                final productData = products![index];
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 140,
+                      child: SingleProduct(
+                        image: productData.images[0],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              productData.name,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            productData.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
-                          IconButton(
-                            onPressed: () => deletProduct(productData, index),
-                            icon: Icon(Icons.delete_outline),
+                        ),
+                        IconButton(
+                          onPressed: () => deleteProduct(productData, index),
+                          icon: const Icon(
+                            Icons.delete_outline,
                           ),
-                        ],
-                      )
-                    ],
-                  );
-                }),
-            floatingActionButton: FloatingActionButton.large(
-              onPressed: navigateToAddProduct,
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+            floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add),
+              onPressed: navigateToAddProduct,
               tooltip: 'Add a Product',
             ),
             floatingActionButtonLocation:

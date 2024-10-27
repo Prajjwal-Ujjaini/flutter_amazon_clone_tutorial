@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_amazon_clone_tutorial/features/cart/screens/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 
 import '../../constants/global_variables.dart';
 import '../../features/account/screens/account_screen.dart';
+import '../../features/cart/screens/cart_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../providers/user_provider.dart';
 
@@ -24,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    SearchBarPage()
+    const CartScreen(),
     // const Center(child: Text('CartScreen Page')),
     // const CartScreen(),
   ];
@@ -37,8 +37,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    // final userCartLen = context.watch<UserProvider>().user.cart.length;
-    final userCartLen = 2;
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
 
     return Scaffold(
       body: pages[_page],

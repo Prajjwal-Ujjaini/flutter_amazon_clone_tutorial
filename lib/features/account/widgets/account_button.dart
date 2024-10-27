@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AccountButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTab;
-  const AccountButton({Key? key, required this.text, required this.onTab})
+  final VoidCallback onTap;
+  const AccountButton({Key? key, required this.text, required this.onTap})
       : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class AccountButton extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   )),
-              onPressed: onTab,
+              onPressed: onTap,
               child: Text(
                 text,
                 style: const TextStyle(

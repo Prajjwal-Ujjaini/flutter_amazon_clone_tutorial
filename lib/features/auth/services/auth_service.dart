@@ -11,6 +11,7 @@ import '../../../constants/global_variables.dart';
 import '../../../constants/utils.dart';
 import '../../../models/user_model.dart';
 import '../../../providers/user_provider.dart';
+import '../../admin/screens/admin_screen.dart';
 
 class AuthService {
   // sign up user
@@ -29,7 +30,7 @@ class AuthService {
         address: '',
         type: '',
         token: '',
-        // cart: [],
+        cart: [],
       );
 
       http.Response res = await http.post(
@@ -80,11 +81,21 @@ class AuthService {
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            BottomBar.routeName,
-            (route) => false,
-          );
+
+          var userType = jsonDecode(res.body)['type'];
+          print("usertyope == $userType");
+
+          if (userType == 'admin') {
+            Navigator.pushReplacementNamed(
+              context,
+              AdminScreen.routeName,
+            );
+          } else {
+            Navigator.pushReplacementNamed(
+              context,
+              BottomBar.routeName,
+            );
+          }
         },
       );
     } catch (e) {

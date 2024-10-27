@@ -3,6 +3,7 @@ import 'package:flutter_amazon_clone_tutorial/models/product_model.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../../../constants/global_variables.dart';
+import '../../product_details/screens/product_details_screen.dart';
 import '../services/home_services.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
@@ -85,11 +86,11 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                       final product = productList![index];
                       return GestureDetector(
                         onTap: () {
-                          // Navigator.pushNamed(
-                          //   context,
-                          //   ProductDetailScreen.routeName,
-                          //   arguments: product,
-                          // );
+                          Navigator.pushNamed(
+                            context,
+                            ProductDetailScreen.routeName,
+                            arguments: product,
+                          );
                         },
                         child: Column(
                           children: [

@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_amazon_clone_tutorial/models/product_model.dart';
-
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/stars.dart';
 import '../../../constants/global_variables.dart';
+import '../../../providers/user_provider.dart';
 import '../../search/screens/search_screen.dart';
 import '../services/product_details_services.dart';
 
@@ -33,17 +33,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     super.initState();
     double totalRating = 0;
-    // for (int i = 0; i < widget.product.rating!.length; i++) {
-    //   totalRating += widget.product.rating![i].rating;
-    //   if (widget.product.rating![i].userId ==
-    //       Provider.of<UserProvider>(context, listen: false).user.id) {
-    //     myRating = widget.product.rating![i].rating;
-    //   }
-    // }
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating += widget.product.rating![i].rating;
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context, listen: false).user.id) {
+        myRating = widget.product.rating![i].rating;
+      }
+    }
 
-    // if (totalRating != 0) {
-    //   avgRating = totalRating / widget.product.rating!.length;
-    // }
+    if (totalRating != 0) {
+      avgRating = totalRating / widget.product.rating!.length;
+    }
   }
 
   void navigateToSearchScreen(String query) {

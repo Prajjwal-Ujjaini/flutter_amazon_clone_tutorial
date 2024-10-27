@@ -45,7 +45,7 @@ class _AccountScreenState extends State<AccountScreen> {
       body: Column(children: const [
         BelowAppBar(),
         SizedBox(height: 10),
-        TopBottons(),
+        TopButtons(),
         SizedBox(height: 20),
         Orders(),
       ]),

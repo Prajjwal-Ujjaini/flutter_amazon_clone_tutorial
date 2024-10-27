@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { productSchema } from "./product";
 
 const userSchema = new Schema({
   name: {
@@ -31,15 +32,27 @@ const userSchema = new Schema({
     type: String,
     default: "user",
   },
-  // cart: [
-  //   {
-  //     product: productSchema,
-  //     quantity: {
-  //       type: Number,
-  //       required: true,
+  cart: [
+    {
+      product: productSchema,
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  // cart: {
+  //   type: [
+  //     {
+  //       product: productSchema,
+  //       quantity: {
+  //         type: Number,
+  //         required: true,
+  //       },
   //     },
-  //   },
-  // ],
+  //   ],
+  //   default: [], // Explicitly initialize as an empty array
+  // },
 });
 
 export const User = model("User", userSchema);
