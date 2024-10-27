@@ -56,7 +56,7 @@ adminRouter.get(
 );
 
 adminRouter.post(
-  "/admin/delet-products",
+  "/admin/delete-product",
   admin,
   async (req: Request, res: Response) => {
     // console.log("get called ");

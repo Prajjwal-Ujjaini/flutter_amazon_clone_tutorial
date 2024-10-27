@@ -7,117 +7,129 @@ import { Types } from "mongoose";
 
 export const userRouter = express.Router();
 
-userRouter.post("/api/add-to-cart", auth, async (req, res) => {
-  try {
-    const { id } = req.body;
-    const product = await Product.findById(id);
+userRouter.post(
+  "/api/add-to-cart",
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.body;
+      const product = await Product.findById(id);
 
-    const userId = (req as Request & { user?: string }).user;
-    let user = await User.findById(userId);
+      const userId = (req as Request & { user?: string }).user;
+      let user = await User.findById(userId);
 
-    if (!user) {
-      res.status(404).json({ error: "User not found" });
-      return;
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+      if (!product) {
+        res.status(404).json({ error: "Product not found" });
+        return;
+      }
+
+      if (user.cart.length == 0) {
+        user.cart.push({ product, quantity: 1 });
+      } else {
+        let isProductFound = false;
+        for (let i = 0; i < user.cart.length; i++) {
+          if ((user.cart[i]!.product as any)._id.equals(product._id)) {
+            isProductFound = true;
+          }
+        }
+
+        if (isProductFound) {
+          let producttt = user.cart.find((productt) =>
+            (productt!.product as any)._id.equals(product._id)
+          );
+          producttt!.quantity += 1;
+        } else {
+          user.cart.push({ product, quantity: 1 });
+        }
+      }
+      user = await user.save();
+      res.json(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "Unexpected error occurred" });
+      }
     }
-    if (!product) {
-      res.status(404).json({ error: "Product not found" });
-      return;
-    }
+  }
+);
 
-    if (user.cart.length == 0) {
-      user.cart.push({ product, quantity: 1 });
-    } else {
-      let isProductFound = false;
+userRouter.delete(
+  "/api/remove-from-cart/:id",
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findById(id);
+
+      const userId = (req as Request & { user?: string }).user;
+      let user = await User.findById(userId);
+
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
+      if (!product) {
+        res.status(404).json({ error: "Product not found" });
+        return;
+      }
+
       for (let i = 0; i < user.cart.length; i++) {
         if ((user.cart[i]!.product as any)._id.equals(product._id)) {
-          isProductFound = true;
+          if (user.cart[i].quantity == 1) {
+            user.cart.splice(i, 1);
+          } else {
+            user.cart[i].quantity -= 1;
+          }
         }
       }
 
-      if (isProductFound) {
-        let producttt = user.cart.find((productt) =>
-          (productt!.product as any)._id.equals(product._id)
-        );
-        producttt!.quantity += 1;
+      user = await user.save();
+      res.json(user);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
       } else {
-        user.cart.push({ product, quantity: 1 });
+        res.status(500).json({ error: "Unexpected error occurred" });
       }
     }
-    user = await user.save();
-    res.json(user);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unexpected error occurred" });
-    }
   }
-});
+);
 
-userRouter.delete("/api/remove-from-cart/:id", auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const product = await Product.findById(id);
+userRouter.post(
+  "/api/save-user-address",
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const { address } = req.body;
 
-    const userId = (req as Request & { user?: string }).user;
-    let user = await User.findById(userId);
+      const userId = (req as Request & { user?: string }).user;
+      let user = await User.findById(userId);
 
-    if (!user) {
-      res.status(404).json({ error: "User not found" });
-      return;
-    }
-    if (!product) {
-      res.status(404).json({ error: "Product not found" });
-      return;
-    }
+      if (!user) {
+        res.status(404).json({ error: "User not found" });
+        return;
+      }
 
-    for (let i = 0; i < user.cart.length; i++) {
-      if ((user.cart[i]!.product as any)._id.equals(product._id)) {
-        if (user.cart[i].quantity == 1) {
-          user.cart.splice(i, 1);
-        } else {
-          user.cart[i].quantity -= 1;
-        }
+      user.address = address;
+      user = await user.save();
+      res.json(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: "Unexpected error occurred" });
       }
     }
-
-    user = await user.save();
-    res.json(user);
-  } catch (error) {
-    console.log(error);
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unexpected error occurred" });
-    }
   }
-});
+);
 
-userRouter.post("/api/save-user-address", auth, async (req, res) => {
-  try {
-    const { address } = req.body;
-
-    const userId = (req as Request & { user?: string }).user;
-    let user = await User.findById(userId);
-
-    if (!user) {
-      res.status(404).json({ error: "User not found" });
-      return;
-    }
-
-    user.address = address;
-    user = await user.save();
-    res.json(user);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unexpected error occurred" });
-    }
-  }
-});
-
-userRouter.post("/api/order", auth, async (req, res) => {
+userRouter.post("/api/order", auth, async (req: Request, res: Response) => {
   try {
     const { cart, totalPrice, address } = req.body;
     let products = [];
@@ -164,7 +176,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
   }
 });
 
-userRouter.get("/api/orders/me", auth, async (req, res) => {
+userRouter.get("/api/orders/me", auth, async (req: Request, res: Response) => {
   try {
     const userId = (req as Request & { user?: string }).user;
 
