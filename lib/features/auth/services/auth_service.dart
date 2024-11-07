@@ -34,7 +34,7 @@ class AuthService {
       );
 
       http.Response res = await http.post(
-        Uri.parse('$uri/api/signup'),
+        Uri.parse('$uri/api/signupVendor'),
         body: user.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

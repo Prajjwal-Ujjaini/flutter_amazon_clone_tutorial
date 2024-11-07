@@ -35,6 +35,37 @@ authRouter.post("/api/signup", async (req: Request, res: Response) => {
   }
 });
 
+authRouter.post("/api/signupVendor", async (req: Request, res: Response) => {
+  try {
+    const reqData: SignUpRequestData = req.body;
+
+    const existingUser = await User.findOne({ email: reqData.email });
+    if (existingUser) {
+      res
+        .status(400)
+        .json({ msg: "Admin User with same email already exists!" });
+      return;
+    }
+
+    const hashedPassword = await bcryptjs.hash(reqData.password, 8);
+
+    let user = new User({
+      email: reqData.email,
+      password: hashedPassword,
+      name: reqData.name,
+      type: "admin",
+    });
+    user = await user.save();
+    res.json(user);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).json({ error: e.message });
+    } else {
+      res.status(500).json({ error: "Unexpected error occurred" });
+    }
+  }
+});
+
 // Sign In Route
 // Exercise
 authRouter.post("/api/signin", async (req: Request, res: Response) => {
