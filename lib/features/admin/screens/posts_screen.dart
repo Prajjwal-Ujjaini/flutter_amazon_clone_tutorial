@@ -25,7 +25,11 @@ class _PostsScreenState extends State<PostsScreen> {
 
   fetchAllProducts() async {
     products = await adminServices.fetchAllProducts(context);
-    setState(() {});
+    // setState(() {});
+    if (mounted) {
+      // Check if the widget is still mounted before calling setState
+      setState(() {});
+    }
   }
 
   void deleteProduct(ProductModel product, int index) {
@@ -34,7 +38,11 @@ class _PostsScreenState extends State<PostsScreen> {
       product: product,
       onSuccess: () {
         products!.removeAt(index);
-        setState(() {});
+        // setState(() {});
+        if (mounted) {
+          // Check if the widget is still mounted
+          setState(() {});
+        }
       },
     );
   }

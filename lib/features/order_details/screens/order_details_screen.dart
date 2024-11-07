@@ -32,7 +32,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   void initState() {
     super.initState();
-    currentStep = widget.order.status;
+    // currentStep = widget.order.status;
+    // currentStep = (widget.order.status < 0 || widget.order.status >= 4)
+    //     ? 0 // Default to the first step
+    //     : widget.order.status;
+    currentStep = widget.order.status.clamp(0, 3); // Clamp to valid range
   }
 
   // !!! ONLY FOR ADMIN!!!
@@ -43,7 +47,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       order: widget.order,
       onSuccess: () {
         setState(() {
-          currentStep += 1;
+          // currentStep += 1;
+          if (currentStep < 3) {
+            currentStep += 1; // Increment only if less than maximum step
+          }
         });
       },
     );
