@@ -49,7 +49,8 @@ class _MyAppState extends State<MyApp> {
             color: Colors.black,
           ),
         ),
-        useMaterial3: true, // can remove this line
+        useMaterial3: false
+        , // can remove this line
       ),
       scaffoldMessengerKey: scaffoldMessengerKey,
       onGenerateRoute: (settings) => generateRoute(settings),

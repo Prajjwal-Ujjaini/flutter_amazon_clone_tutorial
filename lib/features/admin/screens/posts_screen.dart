@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_amazon_clone_tutorial/features/admin/screens/admin_screen.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../../../models/product_model.dart';
